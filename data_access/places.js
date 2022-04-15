@@ -105,6 +105,18 @@ let places = {
       [place_id, comment, rating]
     );
   },
+
+  deletePlaceId: (place_id) => {
+    return pool.query("delete from place.location where id = $1", [place_id]);
+  },
+
+  deleteReviewId: (review_id) => {
+    return pool.query("delete from place.review where id = $1", [review_id]);
+  },
+
+  deletePhotoId: (photo_id) => {
+    return pool.query("delete from place.photo where id = $1", [photo_id]);
+  },
 };
 
 exports.places = places;
