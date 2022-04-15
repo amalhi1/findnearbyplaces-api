@@ -178,9 +178,29 @@ app.delete("/place", (request, response) => {
 });
 app.delete("/review", (request, response) => {
   let review_id = request.body.review_id;
+  places
+    .deleteReviewId(review_id)
+    .then((x) =>
+      response
+        .status(200)
+        .json({ done: true, message: "Review successfully deleted." })
+    )
+    .catch((e) =>
+      response.status(500).json({ done: false, message: "An error occurred." })
+    );
 });
 app.delete("/photo", (request, response) => {
   let photo = request.body.photo_id;
+  places
+    .deletePhotoId(photo)
+    .then((x) =>
+      response
+        .status(200)
+        .json({ done: true, message: "Photo successfully deleted." })
+    )
+    .catch((e) =>
+      response.status(500).json({ done: false, message: "An error occurred." })
+    );
 });
 
 app.listen(port, () => {
