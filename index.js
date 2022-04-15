@@ -31,7 +31,7 @@ app.get(
       )
       .then((x) => {
         if (x.length > 0) {
-          response.status(200).json({ done: false, message: x });
+          response.status(200).json({ done: true, message: x });
         } else {
           response
             .status(404)
@@ -61,7 +61,7 @@ app.post("/customer", (request, response) => {
       console.log(e);
       response
         .status(500)
-        .json({ done: true, message: "Customer not added due to error" });
+        .json({ done: false, message: "Customer not added due to error" });
     });
 });
 
@@ -104,7 +104,7 @@ app.post("/place", (request, response) => {
       console.log(e);
       response
         .status(500)
-        .json({ done: true, message: "Place not added due to error" });
+        .json({ done: false, message: "Place not added due to error" });
     });
 });
 
@@ -121,7 +121,7 @@ app.post("/category", (request, response) => {
       console.log(e);
       response
         .status(500)
-        .json({ done: true, message: "Category not added due to error" });
+        .json({ done: false, message: "Category not added due to error" });
     });
 });
 
@@ -140,7 +140,7 @@ app.post("/photo", (request, response) => {
       console.log(e);
       response
         .status(500)
-        .json({ done: true, message: "Category not added due to error" });
+        .json({ done: false, message: "Category not added due to error" });
     });
 });
 
@@ -159,8 +159,28 @@ app.post("/review", (request, response) => {
       console.log(e);
       response
         .status(500)
-        .json({ done: true, message: "Category not added due to error" });
+        .json({ done: false, message: "Category not added due to error" });
     });
+});
+
+app.delete("/place", (request, response) => {
+  let place_id = request.body.place_id;
+  places
+    .deletePlaceId(place_id)
+    .then((x) =>
+      response
+        .status(200)
+        .json({ done: true, message: "Place successfully deleted." })
+    )
+    .catch((e) =>
+      response.status(500).json({ done: false, message: "An error occurred." })
+    );
+});
+app.delete("/review", (request, response) => {
+  let review_id = request.body.review_id;
+});
+app.delete("/photo", (request, response) => {
+  let photo = request.body.photo_id;
 });
 
 app.listen(port, () => {
