@@ -76,6 +76,17 @@ let places = {
     );
   },
 
+  placeUp: (place_id, name, category_id, latitude, longitude, description) => {
+    return pool.query(
+      "update place.locations set name = $1 set latitude = $2, set longitude = $3 set description = $4 set category_id $5 where id = $6",
+      [name, latitude, longitude, description, category_id, place_id]
+    );
+  },
+
+  placeDel: (place_id) => {
+    return pool.query("delete from place.locations where id = $1", [place_id]);
+  },
+
   category: (name) => {
     return pool.query("insert into place.category (name) values ($1)", [name]);
   },
@@ -83,7 +94,7 @@ let places = {
   photo: (photo, place_id, review_id) => {
     pool.query("insert into place.photo (file) values ($1)", [photo]);
     let photo_id = pool.query(
-      "select place.photo.id from place.photo where place.photo.fiiel = $1",
+      "select place.photo.id from place.photo where place.photo.file = $1",
       [photo]
     );
     if (review_id === NULL) {
@@ -99,6 +110,17 @@ let places = {
     }
   },
 
+  photoUp: (photo_id, photo) => {
+    return pool.query(
+      "update place.photo set file = $1 where id = $2 values ($1)",
+      [photo, photo_id]
+    );
+  },
+
+  photoDel: (photo_id) => {
+    return pool.query("delete from place.photo where id = $1", [photo_id]);
+  },
+
   review: (place_id, comment, rating) => {
     return pool.query(
       "insert into place.review (location_id, text, rating) values ($1, $2, $3)",
@@ -106,16 +128,15 @@ let places = {
     );
   },
 
-  deletePlaceId: (place_id) => {
-    return pool.query("delete from place.location where id = $1", [place_id]);
+  reviewUp: (review_id, comment, rating) => {
+    return pool.query(
+      "update place.review set text = $1 set rating = $2 where id = $3",
+      [comment, rating, review_id]
+    );
   },
 
-  deleteReviewId: (review_id) => {
+  reviewDel: (review_id) => {
     return pool.query("delete from place.review where id = $1", [review_id]);
-  },
-
-  deletePhotoId: (photo_id) => {
-    return pool.query("delete from place.photo where id = $1", [photo_id]);
   },
 };
 

@@ -94,7 +94,7 @@ app.post("/place", (request, response) => {
   let longitude = request.body.longitude;
   let description = request.body.description;
   places
-    .customer(name, category_id, latitude, longitude, description)
+    .place(name, category_id, latitude, longitude, description)
     .then((x) =>
       response
         .status(200)
@@ -134,13 +134,13 @@ app.post("/photo", (request, response) => {
     .then((x) =>
       response
         .status(200)
-        .json({ done: true, message: "Category succesfully added" })
+        .json({ done: true, message: "Photo succesfully added" })
     )
     .catch((e) => {
       console.log(e);
       response
         .status(500)
-        .json({ done: false, message: "Category not added due to error" });
+        .json({ done: false, message: "Photo not added due to error" });
     });
 });
 
@@ -153,54 +153,125 @@ app.post("/review", (request, response) => {
     .then((x) =>
       response
         .status(200)
-        .json({ done: true, message: "Category succesfully added" })
+        .json({ done: true, message: "Review succesfully added" })
     )
     .catch((e) => {
       console.log(e);
       response
         .status(500)
-        .json({ done: false, message: "Category not added due to error" });
+        .json({ done: false, message: "Review not added due to error" });
+    });
+});
+
+app.put("/place", (request, response) => {
+  let place_id = request.body.place_id;
+  let name = request.body.name;
+  let category_id = request.body.category_id;
+  let latitude = request.body.latitude;
+  let longitude = request.body.longitude;
+  let description = request.body.description;
+  places
+    .placeUp(place_id, name, category_id, latitude, longitude, description)
+    .then((x) =>
+      response
+        .status(200)
+        .json({ done: true, message: "Place succesfully updated" })
+    )
+    .catch((e) => {
+      console.log(e);
+      response
+        .status(500)
+        .json({ done: false, message: "Place not updated due to error" });
     });
 });
 
 app.delete("/place", (request, response) => {
   let place_id = request.body.place_id;
   places
-    .deletePlaceId(place_id)
+    .placeDel(place_id)
     .then((x) =>
       response
         .status(200)
-        .json({ done: true, message: "Place successfully deleted." })
+        .json({ done: true, message: "Place succesfully deleted" })
     )
-    .catch((e) =>
-      response.status(500).json({ done: false, message: "An error occurred." })
-    );
+    .catch((e) => {
+      console.log(e);
+      response
+        .status(500)
+        .json({ done: false, message: "Place not deleted due to error" });
+    });
 });
+
+app.put("/review", (request, response) => {
+  let review_id = request.body.review_id;
+  let comment = request.body.comment;
+  let rating = request.body.rating;
+  places
+    .reviewUp(review_id, comment, rating)
+    .then((x) =>
+      response
+        .status(200)
+        .json({ done: true, message: "Review succesfully updated" })
+    )
+    .catch((e) => {
+      console.log(e);
+      response
+        .status(500)
+        .json({ done: false, message: "Review not updated due to error" });
+    });
+});
+
 app.delete("/review", (request, response) => {
   let review_id = request.body.review_id;
   places
-    .deleteReviewId(review_id)
+    .reviewDel(review_id)
     .then((x) =>
       response
         .status(200)
-        .json({ done: true, message: "Review successfully deleted." })
+        .json({ done: true, message: "Review succesfully deleted" })
     )
-    .catch((e) =>
-      response.status(500).json({ done: false, message: "An error occurred." })
-    );
+    .catch((e) => {
+      console.log(e);
+      response
+        .status(500)
+        .json({ done: false, message: "Review not deleted due to error" });
+    });
 });
-app.delete("/photo", (request, response) => {
-  let photo = request.body.photo_id;
+
+app.put("/photo", (request, response) => {
+  let photo = request.body.photo;
+  let place_id = request.body.place_id;
+  let review_id = request.body.review_id;
   places
-    .deletePhotoId(photo)
+    .photoUp(photo, place_id, review_id)
     .then((x) =>
       response
         .status(200)
-        .json({ done: true, message: "Photo successfully deleted." })
+        .json({ done: true, message: "Photo succesfully updated" })
     )
-    .catch((e) =>
-      response.status(500).json({ done: false, message: "An error occurred." })
-    );
+    .catch((e) => {
+      console.log(e);
+      response
+        .status(500)
+        .json({ done: false, message: "Photo not updated due to error" });
+    });
+});
+
+app.delete("/photo", (request, response) => {
+  let photo_id = request.body.photo_id;
+  places
+    .photoDel(photo_id)
+    .then((x) =>
+      response
+        .status(200)
+        .json({ done: true, message: "Photo succesfully deleted" })
+    )
+    .catch((e) => {
+      console.log(e);
+      response
+        .status(500)
+        .json({ done: false, message: "Photo not deleted due to error" });
+    });
 });
 
 app.listen(port, () => {
