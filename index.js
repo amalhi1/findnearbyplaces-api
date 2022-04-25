@@ -1,10 +1,14 @@
 const { places } = require("./data_access/places");
 const express = require("express");
 const cors = require("cors");
+const bp = require("body-parser");
+const req = require("express/lib/request");
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
+app.use(bp.urlencoded({ extended: true }));
 
 const port = process.env.PORT | 4002;
 
@@ -48,8 +52,11 @@ app.get(
 );
 
 app.post("/customer", (request, response) => {
+  //WORKS
   let email = request.body.email;
   let password = request.body.password;
+  console.log(email);
+  console.log(password);
   places
     .customer(email, password)
     .then((x) =>
@@ -66,11 +73,13 @@ app.post("/customer", (request, response) => {
 });
 
 app.post("/login", (request, response) => {
+  //WORKS
   let email = request.body.email;
   let password = request.body.password;
-  results = places
+  places
     .login(email, password)
     .then((x) => {
+      console.log(x);
       if (x.valid) {
         response
           .status(200)
@@ -88,13 +97,15 @@ app.post("/login", (request, response) => {
 });
 
 app.post("/place", (request, response) => {
+  //WORKS
   let name = request.body.name;
   let category_id = request.body.category_id;
   let latitude = request.body.latitude;
   let longitude = request.body.longitude;
   let description = request.body.description;
+  let customer_id = request.body.customer_id;
   places
-    .place(name, category_id, latitude, longitude, description)
+    .place(name, category_id, latitude, longitude, description, customer_id)
     .then((x) =>
       response
         .status(200)
@@ -109,6 +120,7 @@ app.post("/place", (request, response) => {
 });
 
 app.post("/category", (request, response) => {
+  //WORKS
   let name = request.body.name;
   places
     .category(name)
@@ -126,6 +138,7 @@ app.post("/category", (request, response) => {
 });
 
 app.post("/photo", (request, response) => {
+  //WORKS
   let photo = request.body.photo;
   let place_id = request.body.place_id;
   let review_id = request.body.review_id;
@@ -145,6 +158,7 @@ app.post("/photo", (request, response) => {
 });
 
 app.post("/review", (request, response) => {
+  //WORKS
   let place_id = request.body.place_id;
   let comment = request.body.comment;
   let rating = request.body.rating;
@@ -164,6 +178,7 @@ app.post("/review", (request, response) => {
 });
 
 app.put("/place", (request, response) => {
+  //WORKS
   let place_id = request.body.place_id;
   let name = request.body.name;
   let category_id = request.body.category_id;
@@ -186,6 +201,7 @@ app.put("/place", (request, response) => {
 });
 
 app.delete("/place", (request, response) => {
+  //WORKS
   let place_id = request.body.place_id;
   places
     .placeDel(place_id)
@@ -203,6 +219,7 @@ app.delete("/place", (request, response) => {
 });
 
 app.put("/review", (request, response) => {
+  //WORKS
   let review_id = request.body.review_id;
   let comment = request.body.comment;
   let rating = request.body.rating;
@@ -222,6 +239,7 @@ app.put("/review", (request, response) => {
 });
 
 app.delete("/review", (request, response) => {
+  //WORKS
   let review_id = request.body.review_id;
   places
     .reviewDel(review_id)
@@ -239,11 +257,11 @@ app.delete("/review", (request, response) => {
 });
 
 app.put("/photo", (request, response) => {
+  //WORKS
+  let photo_id = request.body.photo_id;
   let photo = request.body.photo;
-  let place_id = request.body.place_id;
-  let review_id = request.body.review_id;
   places
-    .photoUp(photo, place_id, review_id)
+    .photoUp(photo_id, photo)
     .then((x) =>
       response
         .status(200)
@@ -258,6 +276,7 @@ app.put("/photo", (request, response) => {
 });
 
 app.delete("/photo", (request, response) => {
+  //WORKS
   let photo_id = request.body.photo_id;
   places
     .photoDel(photo_id)

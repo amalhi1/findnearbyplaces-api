@@ -16,7 +16,7 @@ create table place.category
 
 create table place.customer
 (
-	id int4 primary key unique,
+	id bigserial primary key unique,
 	email varchar(256) not null,
 	password varchar(8) not null
 );
