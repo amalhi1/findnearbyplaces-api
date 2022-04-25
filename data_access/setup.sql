@@ -8,9 +8,10 @@ drop table if exists place.category CASCADE;
 drop table if exists place.customer CASCADE;
 drop table if exists place.location CASCADE;
 
+
 create table place.category
 (
-	id integer primary key unique,
+	id bigserial primary key unique,
 	name varchar(30) not null
 );
 
@@ -20,6 +21,8 @@ create table place.customer
 	email varchar(256) not null,
 	password varchar(8) not null
 );
+
+
 
 create table place.location
 (
@@ -34,9 +37,9 @@ create table place.location
 
 create table place.review
 (
-	location_id bigserial references place.location(id),
+	location_id int4 references place.location(id),
 	customer_id int4 references place.customer(id),
-	id int4 primary key unique,
+	id bigserial primary key unique,
 	text varchar(512) not null,
 	rating int not null
 );
