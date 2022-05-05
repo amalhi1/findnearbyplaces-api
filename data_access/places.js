@@ -1,7 +1,7 @@
 const { Pool } = require("pg");
 require("dotenv").config();
 
-const connectionString = `postgres://${process.env.USERNAME}:${process.env.PASSWORD}@${process.env.HOST}:${process.env.DATABASEPORT}/${process.env.DATABASE}`;
+const connectionString = `postgres://eiaifxhwtkepjb:1a17a2ee6997bc2b922510c93f73e904a8ea7395d51259ff1b9bc7e55a8e82e5@ec2-3-223-213-207.compute-1.amazonaws.com:5432/d19br5bef3gmsn`;
 
 //postgres://${process.env.USERNAME}:${process.env.PASSWORD}@${process.env.HOST}:${process.env.DATABASEPORT}/${process.env.DATABASE}
 //postgres://eiaifxhwtkepjb:1a17a2ee6997bc2b922510c93f73e904a8ea7395d51259ff1b9bc7e55a8e82e5@ec2-3-223-213-207.compute-1.amazonaws.com:5432/d19br5bef3gmsn
@@ -53,7 +53,7 @@ let places = {
         [email]
       )
       .then((x) => {
-        if (x.rows.length == 1) {
+        if (x.rows.length >= 0) {
           if (password === x.rows[0].password) {
             valid = true;
           } else {

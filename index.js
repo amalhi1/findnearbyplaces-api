@@ -76,6 +76,8 @@ app.post("/login", (request, response) => {
   //WORKS
   let email = request.body.email;
   let password = request.body.password;
+  console.log(email);
+  console.log(password);
   places
     .login(email, password)
     .then((x) => {
@@ -98,6 +100,7 @@ app.post("/login", (request, response) => {
 
 app.post("/place", (request, response) => {
   //WORKS
+  console.log(request.body);
   let name = request.body.name;
   let category_id = request.body.category_id;
   let latitude = request.body.latitude;
@@ -122,6 +125,7 @@ app.post("/place", (request, response) => {
 app.post("/category", (request, response) => {
   //WORKS
   let name = request.body.name;
+  console.log(name);
   places
     .category(name)
     .then((x) =>
@@ -140,8 +144,18 @@ app.post("/category", (request, response) => {
 app.post("/photo", (request, response) => {
   //WORKS
   let photo = request.body.photo;
+  console.log(request.body);
   let place_id = request.body.place_id;
   let review_id = request.body.review_id;
+  if (place_id === "" && review_id === "") {
+    response
+      .status(200)
+      .json({ done: false, message: "Both id fields are empty" });
+  } else if (place_id == "") {
+    place_id = undefined;
+  } else if (review_id == "") {
+    review_id = undefined;
+  }
   places
     .photo(photo, place_id, review_id)
     .then((x) =>
